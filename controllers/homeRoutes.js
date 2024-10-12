@@ -1,79 +1,82 @@
-// To create a new user
-const express = require('express');
 const router = require('express').Router();
+const { blogPost, User } = require('../models');
+const withAuth = require('../utils/auth');
 
-const User = require('../../models/User'); //using the user model to query the database
-
-
-
-// GET all users
 router.get('/', async (req, res) => {
   try {
-    const userData = await User.findAll();
-    res.status(200).json(userData);
+    // Get all projects and JOIN with user data
+    const blogData = await blogPost.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    // Serialize data so the template can read it
+    const projects = blogData.map((project) => project.get({ plain: true }));
+
+    // Pass serialized data and session flag into template
+    res.render('home', { 
+      projects, 
+      logged_in: req.session.logged_in 
+    });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// CREATE a new user
-router.post('/', async (req, res) => {
+router.get('/blog/:id', async (req, res) => {
   try {
-    const userData = await User.create(req.body);
-    res.status(200).json(userData);
+    const blogData = await blogPost.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['title'],
+        },
+      ],
+    });
+
+    const project = blogData.get({ plain: true });
+
+    res.render('blogPost', {
+      ...project,
+      logged_in: req.session.logged_in
+    });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
-// // GET one user
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const userData = await User.findByPk(req.params.id);
-//     if (!userData) {
-//       res.status(404).json({ message: 'No user with this id!' });
-//       return;
-//     }
-//     res.status(200).json(userData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+// Use withAuth middleware to prevent access to route
+router.get('/blog', withAuth, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: blogPost }],
+    });
 
-// // UPDATE a user
-// router.put('/:id', async (req, res) => {
-//   try {
-//     const userData = await User.update(req.body, {
-//       where: {
-//         id: req.params.id,
-//       },
-//     });
-//     if (!userData[0]) {
-//       res.status(404).json({ message: 'No user with this id!' });
-//       return;
-//     }
-//     res.status(200).json(userData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+    const user = userData.get({ plain: true });
 
-// // DELETE a user
-// router.delete('/:id', async (req, res) => {
-//   try {
-//     const userData = await User.destroy({
-//       where: {
-//         id: req.params.id,
-//       },
-//     });
-//     if (!userData) {
-//       res.status(404).json({ message: 'No user with this id!' });
-//       return;
-//     }
-//     res.status(200).json(userData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+    res.render('blogEntry', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/signin', (req, res) => {
+  // If the user is already logged in, redirect the request to another route
+  if (req.session.logged_in) {
+    res.redirect('/home');
+    return;
+  }
+
+  res.render('signin');
+});
 
 module.exports = router;
