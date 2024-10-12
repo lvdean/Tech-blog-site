@@ -36,5 +36,23 @@ router.delete('/:id', withAuth, async (req, res) => {
 });
 // update a blog post
 
+router.put('blog/:id', async (req, res) => {
+    try {
+      const userData = await blogPost.update(req.body, {
+        where: {
+          title: req.params.title,
+          content: req.params.content,
+        },
+      });
+      if (!userData[0]) {
+        res.status(404).json({ message: 'No blog with this id!' });
+        return;
+      }
+      res.status(200).json(userData);
+    } catch (err) {
+      res.status(500).json({ message: 'Internal server error!' });
+    }
+  });
+  
 
 module.exports = router;
