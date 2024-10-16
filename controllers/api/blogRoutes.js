@@ -4,12 +4,12 @@ const withAuth = require('../../utils/auth');
 
 router.post('/', withAuth, async (req, res) => {
   try {
-    const newProject = await blogPost.create({
+    const newblog = await blogPost.create({
       ...req.body,
       user_id: req.session.user_id,
     });
 
-    res.status(200).json(newProject);
+    res.status(200).json(newblog);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -17,40 +17,39 @@ router.post('/', withAuth, async (req, res) => {
 
 router.delete('/:id', withAuth, async (req, res) => {
   try {
-    const projectData = await blogPost.destroy({
+    const blogData = await blogPost.destroy({
       where: {
         id: req.params.id,
         user_id: req.session.user_id,
       },
     });
 
-    if (!projectData) {
-      res.status(404).json({ message: 'No project found with this id!' });
+    if (!blogData) {
+      res.status(404).json({ message: 'No blog found with this id!' });
       return;
     }
 
-    res.status(200).json(projectData);
+    res.status(200).json(blogData);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 // update a blog post
 
-router.put('blog/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-      const userData = await blogPost.update(req.body, {
+      const blogData = await blogPost.update(req.body, {
         where: {
-          title: req.params.title,
-          content: req.params.content,
+          id: req.params.id,
         },
       });
-      if (!userData[0]) {
+      if (!blogData[0]) {
         res.status(404).json({ message: 'No blog with this id!' });
         return;
       }
-      res.status(200).json(userData);
+      res.status(200).json(blogData);
     } catch (err) {
-      res.status(500).json({ message: 'Internal server error!' });
+      res.status(500).json({ message: 'Internal error!' });
     }
   });
   
