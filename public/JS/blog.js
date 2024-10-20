@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
+// update blogs
 const updateFormHandler = async (event) => {
     event.preventDefault();
   
@@ -43,11 +43,12 @@ const updateFormHandler = async (event) => {
           'Content-Type': 'application/json',
         }, 
       });
+      console.log(response)
       if (response.ok) {
         console.log('Update successful');
           document.location.replace('/dashboard');
       } else {
-        alert('Failed to create project');
+        alert('Failed to update blog');
       }
     }
   };

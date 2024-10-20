@@ -53,5 +53,22 @@ router.put('/:id', async (req, res) => {
     }
   });
   
+  // // create a comment
+  // router.post("/:id/comments", withAuth, async (req, res)=>{
+  //   try{
+  //     if(!req.body.body){
+  //       res.status(400).json({message:"Please provide a comment"});
+  //       return;
+  //     }
+  //     const newComment= await Comment.create({
+  //       ...req.body,
+  //       user_id: req.session.user_id,
+  //       blogPost_id: req.params.id,
+  //     });
+  //     res.status(200).json(newComment);
+  //   } catch (err){
+  //     res.status(400).json
+  //   }
+  // });
 
 module.exports = router;

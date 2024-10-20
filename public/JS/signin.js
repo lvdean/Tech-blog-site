@@ -62,7 +62,7 @@ document
         },
         body: JSON.stringify({ email, password, name }),
       });
-
+console.log(response)
       if (response.ok) {
         showMessage("Sign-up successful! Redirecting...", "success");
         setTimeout(() => document.location.replace("/"), 1000); // Optional: Small delay for user feedback

@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-
+// matching comment with the blog and user
 class Comment extends Model {}
 
 Comment.init(
@@ -35,6 +35,8 @@ Comment.init(
           model: 'blogPost',
           key: 'id',
         },
+      onUpdate: 'CASCADE', 
+      onDelete: 'SET NULL',
       },
     
   },
@@ -43,7 +45,8 @@ Comment.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'comment',
+    modelName: 'Comment',
+    tableName: 'comment'
   }
 );
 
