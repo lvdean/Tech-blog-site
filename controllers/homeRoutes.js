@@ -56,7 +56,7 @@ router.get('/blogPost/:id', async (req, res) => {
     });
 
     const blog = blogData.get({ plain: true });
-// console.log(blog)
+console.log(blog)
     res.render('blog', {
       ...blog,
       logged_in: req.session.logged_in
@@ -70,9 +70,8 @@ router.get('/blogPost/:id', async (req, res) => {
 // Access to dashboard using withAuth middleware to prevent access to route if not logged in
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
-    console.log('Session user ID:', req.session.user_id); // Log session ID
-
     const userData = await User.findByPk(req.session.user_id, {
+   
       attributes: { exclude: ['password'] },
       include: [
         {
@@ -81,13 +80,10 @@ router.get('/dashboard', withAuth, async (req, res) => {
         },
       ],
     });
-
-    // if (!userData) {
-    //   console.log('No user found with the given session ID'); // Log if no user found
-    //   return res.status(404).json({ message: 'User not found' });
-    // }
+    console.log(userData)
 
     const user = userData.get({ plain: true });
+    console.log(user)
 
     res.render('dashboard', {
       ...user,
@@ -100,44 +96,39 @@ router.get('/dashboard', withAuth, async (req, res) => {
 });
 
 
-router.get("/comment/:id", async (req, res) => {
+router.get('/comment/:id', async (req, res) => {
   try {
-    const blogData = await blogPost.findAll(req.params.id, {
+    const blogData = await blogPost.findByPk(req.params.id, {
       include: [
         {
           model: User,
-          attributes: ["name"],
+          attributes: ['name'],
         },
         {
           model: Comment,
           include: [
-            {
-              model: User,
-              attributes: ["name"],
+            {model: User,
+            attributes: ['name']
             },
           ],
         },
       ],
     });
+    console.log(blogData)
 
-    const post = blogData.get({ plain: true });
-    console.log(post)
-    if (!post){
-      console.log('No comment found for the given ID.'); // Debug log
-      //     return res.status(404).json({ message: 'Comment not found' });
-      //   }
-    };
-
-    res.render("comment", {
-      ...post, 
-      loggedIn: req.session.logged_in,
-      author: post.user_id === req.session.user_id,
-      title: post.title,
+    const blog = blogData.get({ plain: true });
+console.log(blog)
+    res.render('comment', {
+      ...blog,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
+    console.log(err) 
     res.status(500).json(err);
   }
 });
+
+
 
 // GET /comment/:id - Render the comment page for a specific blog post
 // router.get('/comment/:id', async (req, res) => {
