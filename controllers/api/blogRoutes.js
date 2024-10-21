@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { blogPost } = require('../../models');
+const { blogPost, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.post('/', withAuth, async (req, res) => {
@@ -53,22 +53,31 @@ router.put('/:id', async (req, res) => {
     }
   });
   
-  // // create a comment
-  // router.post("/:id/comments", withAuth, async (req, res)=>{
-  //   try{
-  //     if(!req.body.body){
-  //       res.status(400).json({message:"Please provide a comment"});
-  //       return;
-  //     }
-  //     const newComment= await Comment.create({
-  //       ...req.body,
-  //       user_id: req.session.user_id,
-  //       blogPost_id: req.params.id,
-  //     });
-  //     res.status(200).json(newComment);
-  //   } catch (err){
-  //     res.status(400).json
-  //   }
-  // });
+  // create a comment
+  // POST route to add a comment
+router.post('/:id/comments', async (req, res) => {
+  try {
+      const { commentText } = req.body;
+      const blogId = req.params.id;
+
+      if (!req.session.user_id) {
+        return res.status(401).json({ message: 'You must be logged in to comment.' });
+      }
+
+      if (!commentText.trim() || !blogId) {
+        return res.status(400).json({ message: 'Comment text and Blog ID are required.' });
+      }
+      const newComment = await Comment.create({
+          commentText,
+          blog_id: blogId, // Make sure this matches the field name in your database
+          user_id: req.session.user_id, // Adjust if your session has the user ID
+      });
+
+      res.status(201).json(newComment); // Respond with the newly created comment
+  } catch (err) {
+      console.error('Failed to add comment:', err);
+      res.status(500).json({ message: 'Failed to add comment' });
+  }
+});
 
 module.exports = router;

@@ -5,7 +5,7 @@ const withAuth = require('../../utils/auth');
 router.post('/', withAuth, async (req, res) => {
   try {
     const newComment = await Comment.create({
-      comment: req.body.commentText,
+      commentText,
       user_id: req.session.user_id,
       blog_id: req.session.blog_id,
     });
@@ -25,7 +25,9 @@ router.delete('/:id', withAuth, async (req, res) => {
         blog_id: req.session.blog_id
       },
     });
-
+    console.log('Request Body:', req.body);
+    console.log('Blog ID from Params:', blogId);
+    
     if (!commentData) {
       res.status(404).json({ message: 'No comment found with this id!' });
       return;

@@ -1,19 +1,33 @@
 <h1>BLOGS</h1>
 {{#each blogs as |blogPost| }}
-  <div class="row mb-4 project">
+  <div class="row mb-4 project p-3">
     <div class="col-md-5">
-      <h2>
+      <h2 class= "border border-black border-3 bg-teal bg-teal-500 flex justify-between items-center p-3">
         <!-- Use the blogPost.id for dynamic links -->
-        <a href="/comment/{{blogPost.id}}">{{blogPost.title}}</a>
+        <a href="/comment/{{blogPost.id}}">{{blogPost.title}} Created by {{blogPost.user.name}} on {{format_date blogPost.date_created}}</a>
       </h2>
-      <p>
-        <!-- Correct the user name access -->
-        Created by {{blogPost.user.name}} on {{format_date blogPost.date_created}}
-      </p>
+        <p class="col-md-7 border border-black border-2 p-3">{{blogPost.content}}</p>
+
     </div>
-    <div class="col-md-7">
-      <p>{{blogPost.content}}</p>
-    </div>
+   
+    
   </div>
+  <div class="row mb-4 project px-3">
+  <h2 class="border border-black border-3 bg-teal bg-teal-500 flex justify-between items-center p-3">Comments:</h2>
+{{#if blogPost.Comments.length}}
+  <ul>
+    {{#each blogPost.Comments}}
+      <li class="col-md-7 border border-black border-2 p-3">
+        <p>{{commentText}}</p>
+        <p ><strong>Commented by:</strong> {{blogPost.user.name}}</p>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No comments yet. Be the first to comment!</p>
+{{/if}}
 {{/each}}
+  </div>
+
+
 
