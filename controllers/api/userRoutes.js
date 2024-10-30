@@ -37,38 +37,34 @@ router.post("/", async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     if (!req.body.email || !req.body.password) {
-      res
-        .status(400)
-        .json({ message: "Please provide a email and password" });
-      return;
+      return res.status(400).json({ message: "Please provide an email and password" });
     }
-    console.log("testing user string", req.body)
-    const userData = await User.findOne({
-      where: { email: req.body.email },
-    });
-    console.log("testing log in", userData)
+
+    const userData = await User.findOne({ where: { email: req.body.email } });
     if (!userData) {
-      res.status(400).json({ message: "User does not exist" });
-      return;
+      return res.status(400).json({ message: "User does not exist" });
     }
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      userData.password
-    );
+
+    const validPassword = await bcrypt.compare(req.body.password, userData.password);
     if (!validPassword) {
-      res.status(400).json({ message: "Incorrect email or password" });
-      return;
+      return res.status(400).json({ message: "Incorrect email or password" });
     }
-    delete userData.password;
-    req.session.save(() => {
+
+    req.session.save((err) => {
+      if (err) {
+        console.error("Session save error:", err);
+        return res.status(500).json({ message: "Session save failed" });
+      }
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      res.json({ user: userData, message: "You are now logged in" });
+      res.redirect("/dashboard"); // Redirect to /blogs after login
     });
   } catch (err) {
-    res.status(500).json({ message: "Internal Error try again later" });
+    console.error(err);
+    res.status(500).json({ message: "Internal error, try again later" });
   }
 });
+
 
 
 

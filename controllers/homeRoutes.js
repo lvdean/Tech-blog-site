@@ -2,9 +2,16 @@ const router = require('express').Router();
 const { blogPost, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
+router.get('/test', (req, res) => {
+  console.log("Test route hit!");
+  res.send("Test route working");
+});
+
 router.get('/', async (req, res) => {
+  console.log("Route '/' hit");
   try {
-    // Get all projects and JOIN with user data
+    console.log("Session Data:", req.session);
+   
     const blogData = await blogPost.findAll({
       include: [
         {
@@ -29,11 +36,14 @@ router.get('/', async (req, res) => {
     // Pass serialized data and session flag into template
     res.render('home', { 
       blogs, 
+      logged_in: req.session.logged_in || false,
     });
   } catch (err) {
     res.status(500).json(err);
   }
+ 
 });
+
 
 
 router.get('/blogPost/:id', async (req, res) => {
@@ -120,7 +130,7 @@ router.get('/comment/:id', async (req, res) => {
 console.log(blog)
     res.render('comment', {
       ...blog,
-      logged_in: req.session.logged_in
+      logged_in: true
     });
   } catch (err) {
     console.log(err) 

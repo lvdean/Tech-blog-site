@@ -129,3 +129,22 @@ console.log(response)
 // document
 //   .querySelector('.signup-form')
 //   .addEventListener('submit', signupFormHandler);
+
+  // Assume you have a function to check if the user is logged in
+  const isLoggedIn = () => {
+      // Implement your logic to check if the user is logged in
+      return Boolean(localStorage.getItem('user')); // Example using local storage
+  };
+
+  document.querySelectorAll('.blog-link').forEach(link => {
+      link.addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default anchor behavior
+          const blogId = this.getAttribute('data-id'); // Get the blog ID
+          
+          if (isLoggedIn()) {
+              window.location.href = `/comment/${blogId}`; // Redirect to comment page
+          } else {
+              window.location.href = '/signin'; // Redirect to login page
+          }
+      });
+  });

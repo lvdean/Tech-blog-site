@@ -1,33 +1,47 @@
-<h1>BLOGS</h1>
-{{#each blogs as |blogPost| }}
-  <div class="row mb-4 project p-3">
-    <div class="col-md-5">
-      <h2 class= "border border-black border-3 bg-teal bg-teal-500 flex justify-between items-center p-3">
-        <!-- Use the blogPost.id for dynamic links -->
-        <a href="/comment/{{blogPost.id}}">{{blogPost.title}} Created by {{blogPost.user.name}} on {{format_date blogPost.date_created}}</a>
-      </h2>
-        <p class="col-md-7 border border-black border-2 p-3">{{blogPost.content}}</p>
+<h1 class="text-2xl text-white border-2 bg-black mx-5 p-4 font-mono rounded drop-shadow-lg" style="display: inline-block;">BLOGS</h1>
 
+<div class="blogs-section mb-8" style="margin-left: 7px;"> 
+  {{#each blogs as |blogPost|}}
+    <div class="row m-8 project">
+      <div class="col-md-5">
+        <!-- Blog Title and Details -->
+        <h2 class="p-2 border border-black border-3 bg-teal bg-teal-500 flex justify-between items-center rounded-t"> <!-- Rounded top corners -->
+          {{blogPost.title}}
+          <span>Created by {{blogPost.user.name}} on {{format_date blogPost.date_created}}</span>
+        </h2>
+
+        <!-- Blog Content -->
+        <p class="col-md-7 border border-black border-2 p-2 rounded-b bg-yellow-50">{{blogPost.content}}</p> <!-- Rounded bottom corners -->
+
+        <!-- Add Comment Link -->
+        {{#if logged_in}}
+          <p>Please sign in <a href="/signin" class="text-blue-500">here</a> to add your comment.</p>
+        {{else}}
+        <p>Add your comment 
+            <a href="/comment/{{blogPost.id}}" class="font-bold text-blue-500">here</a>.
+          </p>
+        {{/if}}
+      </div>
+
+      <!-- Comments Section for the Blog -->
+      <div class="comments-section mt-4 border border-black border-3 rounded-t bg-yellow-200">
+        <h3 class="border-b-2 border-black bg-teal bg-teal-500 p-2 ">Comments:</h3> <!-- Rounded top corners -->
+
+        {{#if blogPost.Comments.length}}
+          <ul class="p-2">
+            {{#each blogPost.Comments as |comment|}}
+              <li class="col-md-7 border border-black border-2 p-2 mb-2 bg-yellow-50 rounded"> 
+                <p>{{comment.commentText}}</p>
+                <p><strong>Commented by:</strong> {{blogPost.user.name}}</p> <!-- Displaying blog post author's name -->
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p class="col-md-7 text-red-500">No comments yet. Be the first to comment!</p>
+        {{/if}}
+      </div>
     </div>
-   
-    
-  </div>
-  <div class="row mb-4 project px-3">
-  <h2 class="border border-black border-3 bg-teal bg-teal-500 flex justify-between items-center p-3">Comments:</h2>
-{{#if blogPost.Comments.length}}
-  <ul>
-    {{#each blogPost.Comments}}
-      <li class="col-md-7 border border-black border-2 p-3">
-        <p>{{commentText}}</p>
-        <p ><strong>Commented by:</strong> {{blogPost.user.name}}</p>
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p>No comments yet. Be the first to comment!</p>
-{{/if}}
-{{/each}}
-  </div>
+  {{/each}}
+</div>
 
-
-
+<script src="/js/signin.js"></script>
