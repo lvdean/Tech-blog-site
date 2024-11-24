@@ -14,12 +14,13 @@
         <p class="col-md-7 border border-black border-2 p-2 rounded-b bg-yellow-50">{{blogPost.content}}</p> <!-- Rounded bottom corners -->
 
         <!-- Add Comment Link -->
-        {{#if logged_in}}
-          <p>Please sign in <a href="/signin" class="text-blue-500">here</a> to add your comment.</p>
-        {{else}}
-        <p>Add your comment 
+        {{#if @root.logged_in}}
+          <p>Add your comment 
             <a href="/comment/{{blogPost.id}}" class="font-bold text-blue-500">here</a>.
           </p>
+        {{else}}
+        <p>Please sign in <a href="/signin" class="text-blue-500">here</a> to add your comment.</p>
+    
         {{/if}}
       </div>
 
