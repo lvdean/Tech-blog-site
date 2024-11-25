@@ -1,35 +1,50 @@
-# Tech-blog-site
 
-GIVEN a CMS-style blog site
-WHEN I visit the site for the first time
-THEN I am presented with the homepage, which includes existing blog posts if any have been posted; navigation links for the homepage and the dashboard; and the option to log in
-WHEN I click on the homepage option
-THEN I am taken to the homepage
-WHEN I click on any other links in the navigation
-THEN I am prompted to either sign up or sign in
-WHEN I choose to sign up
-THEN I am prompted to create a username and password
-WHEN I click on the sign-up button
-THEN my user credentials are saved and I am logged into the site
-WHEN I revisit the site at a later time and choose to sign in
-THEN I am prompted to enter my username and password
-WHEN I am signed in to the site
-THEN I see navigation links for the homepage, the dashboard, and the option to log out
-WHEN I click on the homepage option in the navigation
-THEN I am taken to the homepage and presented with existing blog posts that include the post title and the date created
-WHEN I click on an existing blog post
-THEN I am presented with the post title, contents, post creator’s username, and date created for that post and have the option to leave a comment
-WHEN I enter a comment and click on the submit button while signed in
-THEN the comment is saved and the post is updated to display the comment, the comment creator’s username, and the date created
-WHEN I click on the dashboard option in the navigation
-THEN I am taken to the dashboard and presented with any blog posts I have already created and the option to add a new blog post
-WHEN I click on the button to add a new blog post
-THEN I am prompted to enter both a title and contents for my blog post
-WHEN I click on the button to create a new blog post
-THEN the title and contents of my post are saved and I am taken back to an updated dashboard with my new blog post
-WHEN I click on one of my existing posts in the dashboard
-THEN I am able to delete or update my post and taken back to an updated dashboard
-WHEN I click on the logout option in the navigation
-THEN I am signed out of the site
-WHEN I am idle on the site for more than a set time
-THEN I am able to view posts and comments but I am prompted to log in again before I can add, update, or delete posts
+# React Portfolio
+
+![Static Badge](https://img.shields.io/badge/%20JAVASCRIPT%20%20-%20yellow%20?style=social&logo=javascript&logoColor=yellow&color=yellow)
+
+![Static Badge](https://img.shields.io/badge/node-%20js-green)
+
+
+## TABLE OF CONTENTS
+
+- [Description](#description)
+- [Installation](#Installation)
+- [Screenshots](#screenshots)
+- [Test Instructions](#Test-Intructions)
+- [Links](#links)
+
+
+
+## Description
+The task this week was to build a CMS-style blog site similar to a Wordpress site, where developers can publish their blog posts and comment on other developers’ posts as well. The site was built completely from scratch and is deployed to Render. The app follows the MVC paradigm in its architectural structure, using Handlebars.js as the templating language, Sequelize as the ORM, and the express-session npm package for authentication.rom developers with more traditional portfolios.
+
+### User Story
+As a developer who writes about tech I want a CMS-style blog site so that I can publish articles, blog posts, and my thoughts and opinions.
+
+## Installation
+
+Clone the repo: git clone SSH git@github.com:lvdean/Tech-blog-site.git
+
+Open in VS Code. If you do not have VS code you must install it.
+
+Next, use the terminal to run the command `npm i` to install the dependencies associated with this application.
+
+To start the server `npm run start`
+
+
+    
+## Screenshots
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/3417c766-79d1-4a3a-8da0-9cfa052a4867">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/35a4d18f-63ec-4e74-a448-7e9c9c9b48d6">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/87ef9621-d3ab-4cad-8c7b-ed52e14e4db0">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/62ed3ac8-ea41-4106-902b-aa4a8b353c54">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/bef0e0a7-7887-4042-9759-4eb0ca521ec6">
+
+## Links 
+[![Github](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/lvdean/Tech-blog-site)
+
+[Here] is the deployed site.
+
+
+
