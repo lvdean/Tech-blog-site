@@ -21,7 +21,7 @@ document
     const password = form.password.value;
   
  try{
-    const response = await fetch("/api/users/signin", {
+    const response = await fetch("api/users/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,35 +45,35 @@ document
 
   // sign up 
 
-  document
-  .querySelector(".signup-form")
-  .addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    const name = form.name.value;
+//   document
+//   .querySelector(".signup-form")
+//   .addEventListener("submit", async function (event) {
+//     event.preventDefault();
+//     const form = event.target;
+//     const email = form.email.value;
+//     const password = form.password.value;
+//     const name = form.name.value;
 
-    try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
-console.log(response)
-      if (response.ok) {
-        showMessage("Sign-up successful! Redirecting...", "success");
-        setTimeout(() => document.location.replace("/"), 1000); // Optional: Small delay for user feedback
-      } else {
-        const data = await response.json();
-        showMessage(data.message || "Sign-up failed", "error");
-      }
-    } catch (error) {
-      showMessage(error.message || "An error occurred", "error");
-    }
-  });
+//     try {
+//       const response = await fetch("api/users/signup", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ email, password, name }),
+//       });
+// console.log(response)
+//       if (response.ok) {
+//         showMessage("Sign-up successful! Redirecting...", "success");
+//         setTimeout(() => document.location.replace("/"), 1000); // Optional: Small delay for user feedback
+//       } else {
+//         const data = await response.json();
+//         showMessage(data.message || "Sign-up failed", "error");
+//       }
+//     } catch (error) {
+//       showMessage(error.message || "An error occurred", "error");
+//     }
+//   });
 
 
   const isLoggedIn = () => {

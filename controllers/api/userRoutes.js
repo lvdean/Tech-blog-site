@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 
 // POST / signup
 router.post("/", async (req, res) => {
+  console.log(req.body);
   try {
     if (!req.body.email || !req.body.password || !req.body.name) {
       res
@@ -13,6 +14,7 @@ router.post("/", async (req, res) => {
         .json({ message: "Please provide a name, email, and password" });
       return;
     }
+  
     const existingUser = await User.findOne({
       where: { email: req.body.email },
     });
@@ -28,6 +30,7 @@ router.post("/", async (req, res) => {
       req.session.logged_in = true;
       res.status(200).json(userData);
     });
+   
   } catch (err) {
     res.status(400).json(err);
   }
