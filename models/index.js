@@ -1,9 +1,12 @@
+const path = require('path');
+
 const blogPost = require('./blogPost')
 const User = require ('./User')
-const Comment = require ('./comment')
+const Comment = require ('./Comment')
 blogPost.belongsTo(User, {
     foreignKey:"user_id"
 })
+
 
 
 User.hasMany(blogPost, {
