@@ -57,5 +57,5 @@ const updateFormHandler = async (event) => {
 
 
 document
-  .querySelector('.update-project-form')
+  .querySelector('#update')
   .addEventListener('click', updateFormHandler);
